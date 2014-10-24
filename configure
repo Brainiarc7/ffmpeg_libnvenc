@@ -221,6 +221,7 @@ External library support:
   --enable-libmp3lame      enable MP3 encoding via libmp3lame [no]
   --enable-libnut          enable NUT (de)muxing via libnut,
                            native (de)muxer exists [no]
+  --enable-libnvenc        enable NVIDIA NVENC encoder [no]
   --enable-libopencore-amrnb enable AMR-NB de/encoding via libopencore-amrnb [no]
   --enable-libopencore-amrwb enable AMR-WB decoding via libopencore-amrwb [no]
   --enable-libopencv       enable video filtering via libopencv [no]
@@ -1352,6 +1353,7 @@ EXTERNAL_LIBRARY_LIST="
     libmodplug
     libmp3lame
     libnut
+    libnvenc
     libopencore_amrnb
     libopencore_amrwb
     libopencv
@@ -2338,6 +2340,7 @@ libilbc_encoder_deps="libilbc"
 libmodplug_demuxer_deps="libmodplug"
 libmp3lame_encoder_deps="libmp3lame"
 libmp3lame_encoder_select="audio_frame_queue"
+libnvenc_encoder_deps="libnvenc"
 libopencore_amrnb_decoder_deps="libopencore_amrnb"
 libopencore_amrnb_encoder_deps="libopencore_amrnb"
 libopencore_amrnb_encoder_select="audio_frame_queue"
@@ -4328,6 +4331,7 @@ die_license_disabled nonfree libaacplus
 die_license_disabled nonfree libfaac
 enabled gpl && die_license_disabled_gpl nonfree libfdk_aac
 enabled gpl && die_license_disabled_gpl nonfree openssl
+enabled gpl && die_license_disabled_gpl nonfree libnvenc
 
 die_license_disabled version3 libopencore_amrnb
 die_license_disabled version3 libopencore_amrwb
@@ -4839,6 +4843,11 @@ enabled libilbc           && require libilbc ilbc.h WebRtcIlbcfix_InitDecode -li
 enabled libmodplug        && require_pkg_config libmodplug libmodplug/modplug.h ModPlug_Load
 enabled libmp3lame        && require "libmp3lame >= 3.98.3" lame/lame.h lame_set_VBR_quality -lmp3lame
 enabled libnut            && require libnut libnut.h nut_demuxer_init -lnut
+enabled libnvenc          && { { check_header nvEncodeAPI.h || die "ERROR: nvEncodeAPI.h header not found"; } &&
+                               { check_header cuda.h || die "ERROR: cuda.h header not found"; } &&
+                               { { check_lib2 "windows.h" LoadLibrary; } ||
+                                 { check_lib2 "dlfcn.h" dlopen -ldl; } ||
+                                 die "ERROR: LoadLibrary/dlopen not found for avisynth"; } }
 enabled libopencore_amrnb && require libopencore_amrnb opencore-amrnb/interf_dec.h Decoder_Interface_init -lopencore-amrnb
 enabled libopencore_amrwb && require libopencore_amrwb opencore-amrwb/dec_if.h D_IF_init -lopencore-amrwb
 enabled libopencv         && require_pkg_config opencv opencv/cxcore.h cvCreateImageHeader

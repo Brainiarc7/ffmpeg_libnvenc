@@ -1995,7 +1995,7 @@ AVOutputFormat ff_matroska_muxer = {
     .priv_data_size    = sizeof(MatroskaMuxContext),
     .audio_codec       = CONFIG_LIBVORBIS_ENCODER ?
                          AV_CODEC_ID_VORBIS : AV_CODEC_ID_AC3,
-    .video_codec       = CONFIG_LIBX264_ENCODER ?
+    .video_codec       = (CONFIG_LIBX264_ENCODER || CONFIG_LIBNVENC_ENCODER) ?
                          AV_CODEC_ID_H264 : AV_CODEC_ID_MPEG4,
     .write_header      = mkv_write_header,
     .write_packet      = mkv_write_flush_packet,

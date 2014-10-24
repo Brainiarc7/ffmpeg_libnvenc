@@ -1,0 +1,11 @@
+--- ffmpeg.c
++++ ffmpeg.c
+@@ -2644,7 +2644,7 @@
+                     ost->frame_aspect_ratio.num ? // overridden by the -aspect cli option
+                     av_mul_q(ost->frame_aspect_ratio, (AVRational){ codec->height, codec->width }) :
+                     ost->filter->filter->inputs[0]->sample_aspect_ratio;
+-                if (!strncmp(ost->enc->name, "libx264", 7) &&
++                if ((!strncmp(ost->enc->name, "libx264", 7) || !strncmp(ost->enc->name, "libnvenc", 8)) &&
+                     codec->pix_fmt == AV_PIX_FMT_NONE &&
+                     ost->filter->filter->inputs[0]->format != AV_PIX_FMT_YUV420P)
+                     av_log(NULL, AV_LOG_WARNING,

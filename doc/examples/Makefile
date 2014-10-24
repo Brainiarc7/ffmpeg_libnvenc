@@ -19,6 +19,7 @@ EXAMPLES=       avio_reading                       \
                 filtering_audio                    \
                 metadata                           \
                 muxing                             \
+				libnvenc						   \	
                 remuxing                           \
                 resampling_audio                   \
                 scaling_video                      \
