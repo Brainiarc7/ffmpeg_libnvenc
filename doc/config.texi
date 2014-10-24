@@ -1,0 +1,9 @@
+@set config-avcodec yes
+@set config-avdevice yes
+@set config-avfilter yes
+@set config-avformat yes
+@set config-avresample yes
+@set config-avutil yes
+@set config-postproc yes
+@set config-swresample yes
+@set config-swscale yes
