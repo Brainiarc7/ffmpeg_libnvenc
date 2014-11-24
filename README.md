@@ -25,58 +25,57 @@ such as audio, video, subtitles and related metadata.
 
 ## Documentation
 
-The offline documentation is available in the **doc/** directory.
+* The offline documentation is available in the **doc/** directory.
+* The online documentation is available in [ffmpeg website](http://ffmpeg.org) and in the [ffmeg wiki](http://trac.ffmpeg.org).
 
-The online documentation is available in the main [website](http://ffmpeg.org)
-and in the [wiki](http://trac.ffmpeg.org).
+## Examples
 
-### Examples
+* Coding examples are available in the **doc/example** directory.
 
-Conding examples are available in the **doc/example** directory.
 
-## License
+### Notes on Building on Linux
 
-FFmpeg codebase is mainly LGPL-licensed with optional components licensed under
-GPL. Please refer to the LICENSE file for detailed information.
+* Download and install the [NVIDIA NVENC SDK for Windows](https://developer.nvidia.com/nvidia-video-codec-sdk) (Yes, that is correct). Extract the SDK's content then navigate to `nvenc-xx.0/samples/nvEncoder/inc` and copy the header files therein to `/usr/include`.
+* Ensure that the NVIDIA CUDA SDK is installed, and copy `cuda.h` to `/usr/include`.
+* You can then run `./configure` with your customization options as is deemed necessary.
+* In my case, I built it with NVENC enabled with the following configuration options on Ubuntu 14.04 LTS:
 
-## Notes on Building on Linux:
+	```
+	./configure --enable-nonfree --enable-gpl --enable-version3 --enable-libass \
+	--enable-libbluray --enable-libmp3lame --enable-libopencv --enable-libopenjpeg \
+	--enable-libopus --enable-libfaac --enable-libfdk-aac --enable-libtheora \
+	--enable-libvpx --enable-libwebp --enable-opencl --enable-x11grab --enable-opengl \
+	--enable-openssl --cpu=native --enable-libnvenc
+	```
 
-Download and install the NVIDIA NVENC SDK for Windows (Yes, that is correct). Extract the SDK's content, navigate to nvenc-xx.0/samples/nvEncoder/inc and copy the header files therein to /usr/include.
+#### Result:
 
-Ensure that the NVIDIA CUDA SDK is installed, and copy cuda.h to /usr/include.
+* The build was successful, and here's sample output:
+	```
+	lin@mordor:~$ ffmpeg
+	ffmpeg version git-2014-10-24-3b5a7bd Copyright (c) 2000-2014 the FFmpeg developers
+	built on Nov 21 2014 09:57:10 with gcc 4.8 (Ubuntu 4.8.2-19ubuntu1)
+	configuration: --enable-nonfree --enable-gpl --enable-version3 --enable-libass --enable-libbluray --enable-libmp3lame --enable-libopencv --enable-libopenjpeg --enable-libopus --enable-libfaac --enable-libfdk-aac --enable-libtheora --enable-libvpx --enable-libwebp --enable-opencl --enable-x11grab --enable-opengl --enable-openssl --cpu=native --enable-libnvenc
+	libavutil 54. 10.100 / 54. 10.100
+	libavcodec 56. 8.102 / 56. 8.102
+	libavformat 56. 9.101 / 56. 9.101
+	libavdevice 56. 1.100 / 56. 1.100
+	libavfilter 5. 1.106 / 5. 1.106
+	libswscale 3. 1.101 / 3. 1.101
+	libswresample 1. 1.100 / 1. 1.100
+	libpostproc 53. 3.100 / 53. 3.100
+	Hyper fast Audio and Video encoder
+	usage: ffmpeg [options] [[infile options] -i infile]... {[outfile options] outfile}...
 
-You can then run ./configure with your customization options as is deemed necessary.
+	Use -h to get full help or, even better, run 'man ffmpeg'
+	```
 
-In my case, I built it with NVENC enabled with the following configuration options on Ubuntu 14.04 LTS:
+* Here's a log of the awesome FFmpeg build with libnvenc selected as the encoder. The source file used is a 4k video, transcoded to H.264 AVC via libnvenc at a lower bitrate. 
 
-./configure --enable-nonfree --enable-gpl --enable-version3 --enable-libass --enable-libbluray --enable-libmp3lame --enable-libopencv --enable-libopenjpeg --enable-libopus --enable-libfaac --enable-libfdk-aac --enable-libtheora --enable-libvpx --enable-libwebp --enable-opencl --enable-x11grab --enable-opengl --enable-openssl --cpu=native --enable-libnvenc
+> Hint:
+> It was a great success!
 
-## Result: 
-
-The build was successful, and here's sample output:
-
-lin@mordor:~$ ffmpeg
-ffmpeg version git-2014-10-24-3b5a7bd Copyright (c) 2000-2014 the FFmpeg developers
-built on Nov 21 2014 09:57:10 with gcc 4.8 (Ubuntu 4.8.2-19ubuntu1)
-configuration: --enable-nonfree --enable-gpl --enable-version3 --enable-libass --enable-libbluray --enable-libmp3lame --enable-libopencv --enable-libopenjpeg --enable-libopus --enable-libfaac --enable-libfdk-aac --enable-libtheora --enable-libvpx --enable-libwebp --enable-opencl --enable-x11grab --enable-opengl --enable-openssl --cpu=native --enable-libnvenc
-libavutil 54. 10.100 / 54. 10.100
-libavcodec 56. 8.102 / 56. 8.102
-libavformat 56. 9.101 / 56. 9.101
-libavdevice 56. 1.100 / 56. 1.100
-libavfilter 5. 1.106 / 5. 1.106
-libswscale 3. 1.101 / 3. 1.101
-libswresample 1. 1.100 / 1. 1.100
-libpostproc 53. 3.100 / 53. 3.100
-Hyper fast Audio and Video encoder
-usage: ffmpeg [options] [[infile options] -i infile]... {[outfile options] outfile}...
-
-Use -h to get full help or, even better, run 'man ffmpeg'
-
-Here's a log of the awesome FFmpeg build with libnvenc selected as the encoder.
-The source file used is a 4k video, transcoded to H.264 AVC via libnvenc at a lower bitrate.
-
-Hint: It was a great success!
-
+```
 Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/media/lin/AUXILLIARY/Extended Media Libraries/More Video/Sample 3D/sintel_4k.mp4':
 Metadata:
 major_brand : avc1
@@ -112,15 +111,15 @@ Stream #0:0 -> #0:0 (h264 (native) -> h264 (libnvenc))
 Stream #0:1 -> #0:1 (aac (native) -> ac3 (native))
 Press [q] to stop, [?] for help
 video:2505473kB audio:17344kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.016179%
+```
 
 ## Caveats
 
-Extra notes: NVIDIA added NVENC support to GeForce GPUs on Linux in the R346 Beta driver.
-Earlier drivers will NOT work. 
-Also, NVENC works only with NVIDIA Kepler, Maxwell and (possibly) future iterations of NVIDIA GPU architectures.
-Unlike NVCUVENC, NVENC is a dedicated SIP block for accelerated video processing, and as such, is independent of CUDA cores. 
+* Extra notes: NVIDIA added NVENC support to GeForce GPUs on Linux in the R346 Beta driver.
+* Earlier drivers will NOT work.
+* Also, NVENC works only with NVIDIA Kepler, Maxwell and (possibly) future iterations of NVIDIA GPU architectures.
+* Unlike NVCUVENC, NVENC is a dedicated SIP block for accelerated video processing, and as such, is independent of CUDA cores.
 
+## License
 
-
-
-
+FFmpeg codebase is mainly LGPL-licensed with optional components licensed under GPL. Please refer to the [LICENSE](LICENSE.md) file for detailed information.
