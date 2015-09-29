@@ -76,7 +76,7 @@ such as audio, video, subtitles and related metadata.
 > It was a great success!
 
 ```
-Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/media/lin/AUXILLIARY/Extended Media Libraries/More Video/Sample 3D/sintel_4k.mp4':
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/media/lin/AUXILIARY/Extended Media Libraries/More Video/Sample 3D/sintel_4k.mp4':
 Metadata:
 major_brand : avc1
 minor_version : 0
